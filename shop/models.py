@@ -2,9 +2,9 @@ from django.db import models
 from django.utils import timezone
 
 
-class Users(models.Model):
+class User(models.Model):
     # uniqe id for each registered user
-    id = models.IntegerField(unique=True, primary_key=True)
+    id = models.IntegerField(unique=True, primary_key=True, editable=False)
     # field for enetring username string
     username = models.CharField(max_length=255)
     # field for entering username password string
@@ -12,119 +12,132 @@ class Users(models.Model):
     # field containing username email
     e_mail = models.EmailField(max_length=255)
     # field that gets the time of registration
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
-        return f"User: {self.username}, created: {self.created_at}"
+        return f"User {self.id}: {self.username}, created: {self.created_at}"
 
 
-class Products(models.Model):
+class Product(models.Model):
     # unique id for each product registered
-    id = models.IntegerField(unique=True, primary_key=True)
+    id = models.IntegerField(unique=True, primary_key=True, editable=False)
     # name of the product
     name = models.CharField(max_length=255)
     # price of the product
-    price = models.FloatField()
+    price = models.FloatField(default=0.0)
     # total amount of available products
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=1)
     # time of registration of the product
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
         return f"{self.name} - {self.price}"
 
 
-class Revievs(models.Model):
-    id = models.IntegerField(unique=True, primary_key=True)
-    product_id = models.ManyToManyField(Products)
-    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+class Reviev(models.Model):
+    id = models.IntegerField(unique=True, primary_key=True, editable=False)
+    product_id = models.ForeignKey(
+        Product, on_delete=models.CASCADE, db_column="product_id"
+    )
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     rating = models.IntegerField(default=1)
     review = models.TextField(blank=True)
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
         return f"{self.user_id} rated products on {self.rating} at {self.created_at}."
 
 
-class Categories(models.Model):
-    id = models.IntegerField(unique=True, primary_key=True)
+class Category(models.Model):
+    id = models.IntegerField(unique=True, primary_key=True, editable=False)
     name = models.CharField(max_length=255)
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
         return self.name
 
 
-class ProductCategories(models.Model):
-    id = models.IntegerField(unique=True, primary_key=True)
-    product_id = models.ForeignKey(Products, on_delete=models.CASCADE)
-    category_id = models.ForeignKey(Categories, on_delete=models.CASCADE)
+class ProductCategory(models.Model):
+    id = models.IntegerField(unique=True, primary_key=True, editable=False)
+    product_id = models.ForeignKey(
+        Product, on_delete=models.CASCADE, db_column="product_id"
+    )
+    category_id = models.ForeignKey(
+        Category, on_delete=models.CASCADE, db_column="category_id"
+    )
 
     def __str__(self):
         return f"{self.product_id} - {self.category_id}"
 
 
 class Whishlist(models.Model):
-    id = models.IntegerField(unique=True, primary_key=True)
-    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+    id = models.IntegerField(unique=True, primary_key=True, editable=False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     name = models.CharField(max_length=255)
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
         return f"{self.user_id} - {self.name}"
 
 
-class WhishlistItems(models.Model):
-    id = models.IntegerField(unique=True, primary_key=True)
-    whishlist_id = models.ForeignKey(Whishlist, on_delete=models.CASCADE)
-    product_id = models.ForeignKey(Products, on_delete=models.CASCADE)
+class WhishlistItem(models.Model):
+    id = models.IntegerField(unique=True, primary_key=True, editable=False)
+    whishlist_id = models.ForeignKey(
+        Whishlist, on_delete=models.CASCADE, db_column="wishlist_id"
+    )
+    product_id = models.ForeignKey(
+        Product, on_delete=models.CASCADE, db_column="product_id"
+    )
 
     def __str__(self):
         return f"{self.id} - {self.whishlist_id}"
 
 
-class Orders(models.Model):
-    id = models.IntegerField(unique=True, primary_key=True)
-    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+class Order(models.Model):
+    id = models.IntegerField(unique=True, primary_key=True, editable=False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     total_price = models.FloatField(
         max_length=10, editable=False, blank=True, null=True
     )
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
         return f"{self.user_id} - total price of the orded: {self.total_price}"
 
 
-class OrderedItems(models.Model):
-    id = models.IntegerField(unique=True, primary_key=True)
-    order_id = models.ForeignKey(Orders, on_delete=models.CASCADE)
-    product_id = models.ForeignKey(Products, on_delete=models.CASCADE)
+class OrderedItem(models.Model):
+    id = models.IntegerField(unique=True, primary_key=True, editable=False)
+    order_id = models.ForeignKey(Order, on_delete=models.CASCADE, db_column="order_id")
+    product_id = models.ForeignKey(
+        Product, on_delete=models.CASCADE, db_column="product_id"
+    )
     quantity = models.IntegerField(default=1)
-    price = models.FloatField(max_length=10)
 
     def __str__(self):
         return f"{self.order_id}: containing products - {self.product_id} in quantity of {self.quantity} and total price of {self.price}"
 
 
-class Adresses(models.Model):
-    id = models.IntegerField(unique=True, primary_key=True)
-    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+class Adress(models.Model):
+    id = models.IntegerField(unique=True, primary_key=True, editable=False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     street_adress = models.CharField(blank=False, max_length=255)
     city = models.CharField(blank=False, max_length=255)
     state = models.CharField(blank=False, max_length=255)
     zip_code = models.CharField(blank=False, max_length=255)
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
         return f"{self.user_id} - Adress: {self.state}, {self.city}, {self.street_adress}, zip code: {self.zip_code}"
 
 
-class Shipments(models.Model):
-    id = models.IntegerField(unique=True, primary_key=True)
-    order_id = models.ForeignKey(Orders, on_delete=models.CASCADE)
-    user_adress = models.ForeignKey(Adresses, on_delete=models.CASCADE)
-    tracking_number = models.CharField(max_length=255)
-    shipped_at = models.DateTimeField(default=timezone.now)
+class Shipment(models.Model):
+    id = models.IntegerField(unique=True, primary_key=True, editable=False)
+    order_id = models.ForeignKey(Order, on_delete=models.CASCADE, db_column="order_id")
+    user_adress = models.ForeignKey(
+        Adress, on_delete=models.CASCADE, db_column="user_adress"
+    )
+    tracking_number = models.CharField(max_length=255, unique=True, editable=False)
+    shipped_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
         return (

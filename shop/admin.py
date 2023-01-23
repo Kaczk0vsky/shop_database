@@ -1,26 +1,26 @@
 from django.contrib import admin
 from .models import (
-    Users,
-    Products,
-    Categories,
+    User,
+    Product,
+    Category,
     Whishlist,
-    WhishlistItems,
-    ProductCategories,
-    Shipments,
-    Orders,
-    Revievs,
-    Adresses,
-    OrderedItems,
+    WhishlistItem,
+    ProductCategory,
+    Shipment,
+    Order,
+    Reviev,
+    Adress,
+    OrderedItem,
 )
 
-admin.site.register(Users)
-admin.site.register(Products)
-admin.site.register(Categories)
+admin.site.register(User)
+admin.site.register(Product)
+admin.site.register(Category)
 admin.site.register(Whishlist)
-admin.site.register(WhishlistItems)
-admin.site.register(ProductCategories)
-admin.site.register(Shipments)
-admin.site.register(Orders)
-admin.site.register(Revievs)
-admin.site.register(Adresses)
-admin.site.register(OrderedItems)
+admin.site.register(WhishlistItem)
+admin.site.register(ProductCategory)
+admin.site.register(Shipment)
+admin.site.register(Order)
+admin.site.register(Reviev)
+admin.site.register(Adress)
+admin.site.register(OrderedItem)

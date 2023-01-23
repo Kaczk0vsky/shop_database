@@ -1,8 +1,33 @@
 <!DOCTYPE html>
 <html>
 <body>
+  <center>
+    <p>Wybierz co chcesz zakupić:</p>
+    <hr/>
+    <form action="/shop/shop/" method="POST">
+      {% csrf_token %}
 
-<p>Logeed in!</p>
-
+      <!-- From :<input type="date" name="fromdate"/>
+      To :<input type="date" name="todate"/>
+      Serial number :<input type="text" name="serial_number"/>
+      <input type="submit" value="Search"/> -->
+      <hr/>
+      <table border='1'>
+        <td><p>Produkt:</p></td>
+        <td><p>Cena:</p></td>
+        <td><p>Ilość:</p></td>
+        <td><p>Kup:</p></td>
+        {% for x in products %}
+          <tr>
+            <td>{{ x.name }}</td>
+            <td>{{ x.price }}</td>
+            <td>{{ x.quantity }}</td>
+            <td><input type="number" name="amount"/></td>
+          </tr>
+        {% endfor %}
+      </table>
+      <input type="submit" value="Dodaj do koszyka"/>
+    </form>
+  </center>
 </body>
 </html>  

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+<form action="/shop/added_to_cart/" method="POST">
+    <center>
+        {% csrf_token %}
+        <p>Dodano produkty do koszyka! Poniżej wyświetlam aktualną zawartość:</p>
+        <table border='1'>
+            <td><p>Produkt:</p></td>
+            <td><p>Cena:</p></td>
+            <td><p>Ilość:</p></td>
+            {% for x in products %}
+                <tr>
+                    <td>{{ x.name }}</td>
+                    <td>{{ x.price }}</td>
+                    <td>{{ x.quantity }}</td>
+                    <td><input type="number" name="amount"/></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" value="Login">
+    </center>
+</form>
+</body>
+</html>  

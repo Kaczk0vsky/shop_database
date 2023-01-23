@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
 <body>
-
-<form action="/shop/user_login/" method="post">
-    {% csrf_token %}
-    <table border='1'>
-        <td><p>User email:</p></td>
-        <td><p>Password</p></td>
-        <tr>
-          <td><input id="e_mail" type="text" name="e_mail" maxlength="20" required></td>
-          <td><input id="password" type="text" name="password" maxlength="20" required></td>
-        </tr>
-    </table>
-    <input type="submit" value="Login">
-</form>
+  
+<center>
+  <form action="/shop/user_login/" method="post">
+      {% csrf_token %}
+      <table border='1'>
+          <td><p>User email:</p></td>
+          <td><p>Password:</p></td>
+          <tr>
+            <td><input id="e_mail" type="text" name="e_mail" maxlength="20" required></td>
+            <td><input id="password" type="text" name="password" maxlength="20" required></td>
+          </tr>
+      </table>
+      <input type="submit" value="Login">
+  </form>
+</center>
 
 </body>
 </html>  
