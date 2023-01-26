@@ -69,16 +69,27 @@ def shop(request):
 
 
 def added_to_cart(request):
-    product_data = (
-        Whishlist.objects.filter(user_id=User.objects.get(e_mail=user_dict["e_mail"]))
-        .values()
-        .all()
-    )
     template = loader.get_template("added_to_cart.html")
+    # counting how many items are on whishlist
+    i = Product.objects.count()
+    index = 1
+    while index <= i:
+        product_data = (
+            WhishlistItem.objects.filter(
+                whishlist_id=Whishlist.objects.get(
+                    user_id=User.objects.get(e_mail=user_dict["e_mail"])
+                ),
+                product_id=index,
+            )
+        ).count()
+        index = index + 1
+    # addind those items to dict
+    # !!!!!!!!!!!!!!
+    print(product_data)
     data = {
         "products": product_data,
     }
     # adding back to shop button action
     if request.method == "POST":
         return HttpResponseRedirect("/shop/shop/")
-    return HttpResponse(template.render(data, request))
+    return HttpResponse(template.render({}, request))
