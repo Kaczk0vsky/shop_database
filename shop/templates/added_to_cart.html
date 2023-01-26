@@ -8,17 +8,16 @@
         <table border='1'>
             <td><p>Produkt:</p></td>
             <td><p>Cena:</p></td>
-            <td><p>Ilość:</p></td>
+            <td><p>Kupiona ilość:</p></td>
             {% for x in products %}
                 <tr>
                     <td>{{ x.name }}</td>
                     <td>{{ x.price }}</td>
                     <td>{{ x.quantity }}</td>
-                    <td><input type="number" name="amount"/></td>
                 </tr>
             {% endfor %}
         </table>
-        <input type="submit" value="Login">
+        <input type="submit" value="Pwrót">
     </center>
 </form>
 </body>
