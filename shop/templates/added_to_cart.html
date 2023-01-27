@@ -5,19 +5,27 @@
     <center>
         {% csrf_token %}
         <p>Dodano produkty do koszyka! Poniżej wyświetlam aktualną zawartość:</p>
-        <table border='1'>
+        <table border='1' id="table">
             <td><p>Produkt:</p></td>
+            {% for x in name %}
+                <tr>
+                    <td>{{ x.name }}</td>
+                </tr>
+            {% endfor %}
             <td><p>Cena:</p></td>
+            {% for x in name %}
+                <tr>
+                    <td>{{ x.price }}</td>
+                </tr>
+            {% endfor %}
             <td><p>Kupiona ilość:</p></td>
             {% for x in products %}
                 <tr>
-                    <td>{{ x.name }}</td>
-                    <td>{{ x.price }}</td>
-                    <td>{{ x.quantity }}</td>
+                    <td>{{ x }}</td>
                 </tr>
             {% endfor %}
         </table>
-        <input type="submit" value="Pwrót">
+        <input type="submit" value="Powrót">
     </center>
 </form>
 </body>
