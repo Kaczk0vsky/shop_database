@@ -1,17 +1,24 @@
 from django.db import models
 from django.utils import timezone
 
+# Explaining how basic field parameters work:
+#
+# unique = True - you cannot assaing for example another id which is equal to any existing id of that instance in database
+# primery_key = True - it means that, that field is used as id in sql datatable
+# editable = False - you cannot edit this field through django admin panel and it isnt visible aswell
+# max_length - max length of data string passed to field
+# default - setting default value as <smth>
+# db_column - custom name of database column
+# blank = True/False - means that field might be blank/cannot be blank
+# on_delete - specifies what happens to database after deleting object
+#
+
 
 class User(models.Model):
-    # uniqe id for each registered user
     id = models.IntegerField(unique=True, primary_key=True, editable=False)
-    # field for enetring username string
     username = models.CharField(max_length=255)
-    # field for entering username password string
     password = models.CharField(max_length=255)
-    # field containing username email
     e_mail = models.EmailField(max_length=255)
-    # field that gets the time of registration
     created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
@@ -19,15 +26,10 @@ class User(models.Model):
 
 
 class Product(models.Model):
-    # unique id for each product registered
     id = models.IntegerField(unique=True, primary_key=True, editable=False)
-    # name of the product
     name = models.CharField(max_length=255)
-    # price of the product
     price = models.FloatField(default=0.0)
-    # total amount of available products
     quantity = models.IntegerField(default=1)
-    # time of registration of the product
     created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
