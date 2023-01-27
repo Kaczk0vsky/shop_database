@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 
-from .models import User, Product, Whishlist, WhishlistItem
+from .models import User, Product, Whishlist, WhishlistItem, Adress
 from .global_vars import user_dict
 
 
@@ -29,7 +29,7 @@ def shop(request):
         "products": product_data,
     }
     # action after clicking the button on site
-    if request.method == "POST":
+    if request.method == "POST" and "basket" in request.POST:
         # getting quantity of items bought
         amount = request.POST.getlist("amount")
         quantity = [eval(x) for x in amount]
@@ -65,6 +65,8 @@ def shop(request):
             Product.objects.filter(id=i).update(quantity=product_amount)
             i = i + 1
         return HttpResponseRedirect("/shop/added_to_cart/")
+    elif request.method == "POST" and "adress" in request.POST:
+        return HttpResponseRedirect("/shop/adress/")
     return HttpResponse(template.render(data, request))
 
 
@@ -91,8 +93,29 @@ def added_to_cart(request):
         "name": products,
         "products": product_data,  # quantity,
     }
-    print(data)
     # adding back to shop button action
     if request.method == "POST":
         return HttpResponseRedirect("/shop/shop/")
     return HttpResponse(template.render(data, request))
+
+
+def add_adress(request):
+    template = loader.get_template("adress.html")
+    if request.method == "POST" and "back" in request.POST:
+        return HttpResponseRedirect("/shop/shop/")
+    elif request.method == "POST" and "add" in request.POST:
+        # adding adress to database
+        state = request.POST["state"]
+        city = request.POST["city"]
+        street = request.POST["street"]
+        zip_code = request.POST["zip_code"]
+        Adress(
+            user_id=User.objects.get(e_mail=user_dict["e_mail"]),
+            state=state,
+            city=city,
+            street_adress=street,
+            zip_code=zip_code,
+        ).save()
+        return HttpResponseRedirect("/shop/shop/")
+
+    return HttpResponse(template.render({}, request))

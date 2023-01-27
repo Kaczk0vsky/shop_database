@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <center>
+    <hr/>
+    <p>Dodaj adres dostawy:</p>
+    <form action="/shop/adress/" method="POST">
+      {% csrf_token %}
+        <table border='1' id="table">
+            <tr>
+                <td><p>Kraj:</p></td>
+                <td><input type="text" name="state"/></td>
+            </tr>
+            <tr>
+                <td><p>Miasto:</p></td>
+                <td><input type="text" name="city"/></td>
+            </tr>
+            <tr>
+                <td><p>Ulica:</p></td>
+                <td><input type="text" name="street"/></td>
+            </tr>
+            <tr>
+                <td><p>Kod pocztowy:</p></td>
+                <td><input type="text" name="zip_code"/></td>
+            </tr>
+        </table>
+        <hr/>
+        <input type="submit" value="Dodaj adres" name="add">
+        <hr/>
+        <input type="submit" value="Powrót" name="back">
+        <hr/>
+    </form>
+  </center>
+</body>
+</html>  

@@ -2,11 +2,10 @@
 <html>
 <body>
   <center>
-    <p>Wybierz co chcesz zakupić:</p>
     <hr/>
+    <p>Wybierz co chcesz zakupić:</p>
     <form action="/shop/shop/" method="POST">
       {% csrf_token %}
-      <hr/>
       <table border='1'>
         <td><p>Produkt:</p></td>
         <td><p>Cena:</p></td>
@@ -21,7 +20,11 @@
           </tr>
         {% endfor %}
       </table>
-      <input type="submit" value="Dodaj do koszyka"/>
+      <hr/>
+      <input type="submit" value="Dodaj do koszyka" name="basket"/>
+      <hr/>
+      <input type="submit" value="Dodaj adres dostawy" name="adress"/>
+      <hr/>
     </form>
   </center>
 </body>
