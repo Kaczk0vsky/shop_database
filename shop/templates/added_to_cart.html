@@ -4,25 +4,21 @@
 <form action="/shop/added_to_cart/" method="POST">
     <center>
         {% csrf_token %}
-        <p>Dodano produkty do koszyka! Poniżej wyświetlam aktualną zawartość:</p>
+        <p>Dodano produkty do koszyka! Poniżej wyświetlono aktualną zawartość koszyka:</p>
         <table border='1' id="table">
             <td><p>Produkt:</p></td>
             {% for x in name %}
-                <tr>
-                    <td>{{ x.name }}</td>
-                </tr>
+                <td>{{ x.name }}</td>
             {% endfor %}
+            <tr></tr>
             <td><p>Cena:</p></td>
             {% for x in name %}
-                <tr>
-                    <td>{{ x.price }}</td>
-                </tr>
+                <td>{{ x.price }}</td>
             {% endfor %}
+            <tr></tr>
             <td><p>Kupiona ilość:</p></td>
             {% for x in products %}
-                <tr>
-                    <td>{{ x }}</td>
-                </tr>
+                <td>{{ x }}</td>
             {% endfor %}
         </table>
         <input type="submit" value="Powrót">
