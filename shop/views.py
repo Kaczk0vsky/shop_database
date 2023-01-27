@@ -23,7 +23,7 @@ def user_login(request):
 
 def shop(request):
     # loading products database into html template
-    product_data = Product.objects.raw("SELECT * FROM shop_product")
+    product_data = Product.objects.raw("SELECT * FROM shop_product WHERE quantity != 0")
     template = loader.get_template("shop.html")
     data = {
         "products": product_data,
