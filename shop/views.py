@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 
-from .models import User, Product, Whishlist, WhishlistItem, Adress
+from .models import User, Product, Whishlist, WhishlistItem, Adress, Order
 from .global_vars import user_dict
 
 
@@ -68,6 +68,31 @@ def shop(request):
     # action after clicking button add adress
     elif request.method == "POST" and "adress" in request.POST:
         return HttpResponseRedirect("/shop/adress/")
+    elif request.method == "POST" and "order" in request.POST:
+        # action after clicking button ordeer
+        # it get all products and its quantity in basket and returns its value as an order in database
+        # counting how many items are on whishlist
+        i = Product.objects.count()
+        index = 1
+        price = 0
+        while index <= i:
+            amount = (
+                WhishlistItem.objects.filter(
+                    whishlist_id=Whishlist.objects.get(
+                        user_id=User.objects.get(e_mail=user_dict["e_mail"])
+                    ),
+                    product_id=index,
+                )
+            ).count()
+            product_price = Product.objects.filter(id=index).values("price").get()
+            price = price + product_price["price"] * amount
+            index = index + 1
+        total_price = round(price, 2)
+        Order(
+            user_id=User.objects.get(e_mail=user_dict["e_mail"]),
+            total_price=total_price,
+        ).save()
+        return HttpResponse(template.render(data, request))
     return HttpResponse(template.render(data, request))
 
 

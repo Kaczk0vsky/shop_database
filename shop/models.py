@@ -99,7 +99,7 @@ class Order(models.Model):
     id = models.IntegerField(unique=True, primary_key=True, editable=False)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     total_price = models.FloatField(
-        max_length=10, editable=False, blank=True, null=True
+        max_length=10,
     )
     created_at = models.DateTimeField(default=timezone.now, editable=False)
 
@@ -116,7 +116,7 @@ class OrderedItem(models.Model):
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"{self.order_id}: containing products - {self.product_id} in quantity of {self.quantity} and total price of {self.price}"
+        return f"{self.order_id}: containing products - {self.product_id} in quantity of {self.quantity}"
 
 
 class Adress(models.Model):
